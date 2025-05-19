@@ -4,8 +4,9 @@ import ca.ubc.cs317.dict.model.Database;
 import ca.ubc.cs317.dict.model.Definition;
 import ca.ubc.cs317.dict.model.MatchingStrategy;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
+import java.io.*;
+
+import java.net.*;
 import java.net.Socket;
 import java.util.*;
 
@@ -17,7 +18,10 @@ import java.util.*;
 public class DictionaryConnection {
 
     private static final int DEFAULT_PORT = 2628;
-
+    private ServerSocket serverSocket;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
     /** Establishes a new connection with a DICT server using an explicit host and port number, and handles initial
      * welcome messages.
      *
@@ -28,7 +32,21 @@ public class DictionaryConnection {
      */
     public DictionaryConnection(String host, int port) throws DictConnectionException {
         // TODO Replace this with code that creates the requested connection
-        throw new DictConnectionException("Not implemented");
+    	
+
+		try {
+		    Socket echoSocket = new Socket(host, port);        // 1st statement
+		    PrintWriter out =                                            // 2nd statement
+		        new PrintWriter(echoSocket.getOutputStream(), true);
+		    BufferedReader in =                                          // 3rd statement 
+		        new BufferedReader(
+		            new InputStreamReader(echoSocket.getInputStream()));
+		    BufferedReader stdIn =                                       // 4th statement 
+		        new BufferedReader(
+		            new InputStreamReader(System.in));
+    	}catch(IOException e) {
+            throw new DictConnectionException("Not implemented");
+    	}
     }
 
     /** Establishes a new connection with a DICT server using an explicit host, with the default DICT port number, and

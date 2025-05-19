@@ -1,5 +1,4 @@
 package ca.ubc.cs317.dict.model;
-import java.net.*;
 
 /**
  * Created by Jonatan on 2017-09-09.
