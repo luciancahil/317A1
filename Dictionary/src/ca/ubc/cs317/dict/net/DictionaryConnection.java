@@ -120,7 +120,7 @@ public class DictionaryConnection {
 				if(parts.length == 1) {
 					break;
 				}
-                String name = parts[0];
+                String name = parts[0].strip();
                 String descriiption = parts[1];
                 
                 Database db = new Database(name, descriiption);
