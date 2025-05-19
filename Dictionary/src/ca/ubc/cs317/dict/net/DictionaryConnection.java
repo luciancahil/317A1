@@ -145,7 +145,33 @@ public class DictionaryConnection {
     public synchronized Set<MatchingStrategy> getStrategyList() throws DictConnectionException {
         Set<MatchingStrategy> set = new LinkedHashSet<>();
 
-        // TODO Add your code here
+        try {
+            out.println("SHOW STRATEGIES");
+            
+            // read 2 metadata lines
+            in.readLine();
+            in.readLine();
+            
+	        while (true) {
+	            String line = in.readLine();
+				String[] parts = line.split("\"");
+				
+				// We've parsed out all the strategies
+				if(parts.length == 1) {
+					break;
+				}
+                String name = parts[0].strip();
+                String descriiption = parts[1];
+                
+                MatchingStrategy ms = new MatchingStrategy(name, descriiption);
+                
+                set.add(ms);
+               
+            }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new DictConnectionException(e);
+		}
 
         return set;
     }
@@ -183,7 +209,6 @@ public class DictionaryConnection {
 			
 			System.out.print("OUT!");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new DictConnectionException(e);
 		}
         return sb.toString();
