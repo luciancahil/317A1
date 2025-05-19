@@ -70,11 +70,9 @@ public class DictionaryMain extends JFrame {
                 Database d = (Database) databaseModel.getSelectedItem();
                 if (d != null && connection != null) {
                     try {
-                        System.out.println("getting databases");
 
                         databaseDescription.setText(d.getDescription() + "\n" + connection.getDatabaseInfo(d));
                     } catch (DictConnectionException ex) {
-                        System.out.println("getting databases error");
 
                         databaseDescription.setText(d.getDescription() + "\n" + "Error retrieving database information");
                     }
@@ -207,7 +205,6 @@ public class DictionaryMain extends JFrame {
     }
 
     public static void main(String[] args) {
-    	System.out.println("Hello!");
         SwingUtilities.invokeLater(() -> {
             DictionaryMain main = new DictionaryMain();
             main.setVisible(true);

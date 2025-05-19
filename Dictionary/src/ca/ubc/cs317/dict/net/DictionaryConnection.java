@@ -60,7 +60,7 @@ public class DictionaryConnection {
      */
     public synchronized void close() {
 
-        // TODO Add your code here
+        out.println("SHOW DATABASES");
     }
 
     /** Requests and retrieves all definitions for a specific word.
@@ -93,8 +93,31 @@ public class DictionaryConnection {
     public synchronized Set<String> getMatchList(String word, MatchingStrategy strategy, Database database) throws DictConnectionException {
         Set<String> set = new LinkedHashSet<>();
 
-        // TODO Add your code here
-
+       
+        
+        try {
+            out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
+            
+            // read 1 metadata line
+            in.readLine();
+            
+	        while (true) {
+	            String line = in.readLine();
+				String[] parts = line.split("\"");
+				
+				// We've parsed out all the results
+				if(parts.length == 1) {
+					break;
+				}
+				
+				// the word that matches
+                String match = parts[1];
+                
+                set.add(match);
+            }
+		} catch (IOException e) {
+			throw new DictConnectionException(e);
+		}
         return set;
     }
 
@@ -130,7 +153,6 @@ public class DictionaryConnection {
 
             }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new DictConnectionException(e);
 		}
 
@@ -157,7 +179,7 @@ public class DictionaryConnection {
 				String[] parts = line.split("\"");
 				
 				// We've parsed out all the strategies
-				if(parts.length == 1) {
+				if(parts.length == 1 || line == null) {
 					break;
 				}
                 String name = parts[0].strip();
@@ -169,7 +191,6 @@ public class DictionaryConnection {
                
             }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new DictConnectionException(e);
 		}
 
@@ -191,7 +212,6 @@ public class DictionaryConnection {
 	    try {
 	        out.println("SHOW INFO " + d.getName());
 	        
-	        System.out.println("SHOW INFO " + d.getName());
 	        
 	        in.readLine();
 	        String line;
@@ -207,7 +227,6 @@ public class DictionaryConnection {
 
 	        }
 			
-			System.out.print("OUT!");
 		} catch (IOException e) {
 			throw new DictConnectionException(e);
 		}
