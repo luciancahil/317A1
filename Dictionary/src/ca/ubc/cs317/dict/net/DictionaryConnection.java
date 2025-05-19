@@ -38,7 +38,7 @@ public class DictionaryConnection {
 		    in = new BufferedReader(
 		            new InputStreamReader(clientSocket.getInputStream()));
 		    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-    	}catch(IOException e) {
+    	}catch(Exception e) {
             throw new DictConnectionException("Not implemented");
     	}
     }
@@ -60,7 +60,7 @@ public class DictionaryConnection {
      */
     public synchronized void close() {
 
-        out.println("SHOW DATABASES");
+        out.println("QUIT");
     }
 
     /** Requests and retrieves all definitions for a specific word.
@@ -76,7 +76,7 @@ public class DictionaryConnection {
     public synchronized Collection<Definition> getDefinitions(String word, Database database) throws DictConnectionException {
         Collection<Definition> set = new ArrayList<>();
 
-
+        // TODO This
         return set;
     }
 
@@ -115,7 +115,7 @@ public class DictionaryConnection {
                 
                 set.add(match);
             }
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
         return set;
@@ -152,7 +152,7 @@ public class DictionaryConnection {
                 databaseMap.put(name,  db);
 
             }
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
 
@@ -190,7 +190,7 @@ public class DictionaryConnection {
                 set.add(ms);
                
             }
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
 
@@ -205,6 +205,7 @@ public class DictionaryConnection {
     public synchronized String getDatabaseInfo(Database d) throws DictConnectionException {
     	StringBuilder sb = new StringBuilder();
     	
+    	// TODO fix all and any
     	if(d.getName() == "*") {
     		return sb.toString();
     	}
@@ -227,7 +228,7 @@ public class DictionaryConnection {
 
 	        }
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
         return sb.toString();
