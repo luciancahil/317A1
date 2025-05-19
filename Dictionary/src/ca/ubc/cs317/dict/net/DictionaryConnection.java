@@ -30,20 +30,14 @@ public class DictionaryConnection {
      * @throws DictConnectionException If the host does not exist, the connection can't be established, or the messages
      * don't match their expected value.
      */
-    public DictionaryConnection(String host, int port) throws DictConnectionException {
-        // TODO Replace this with code that creates the requested connection
-    	
+    public DictionaryConnection(String host, int port) throws DictConnectionException {	
 
 		try {
-		    Socket echoSocket = new Socket(host, port);        // 1st statement
-		    PrintWriter out =                                            // 2nd statement
-		        new PrintWriter(echoSocket.getOutputStream(), true);
-		    BufferedReader in =                                          // 3rd statement 
-		        new BufferedReader(
-		            new InputStreamReader(echoSocket.getInputStream()));
-		    BufferedReader stdIn =                                       // 4th statement 
-		        new BufferedReader(
-		            new InputStreamReader(System.in));
+		    clientSocket = new Socket(host, port);        // 1st statement
+		    out = new PrintWriter(clientSocket.getOutputStream(), true);
+		    in = new BufferedReader(
+		            new InputStreamReader(clientSocket.getInputStream()));
+		    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     	}catch(IOException e) {
             throw new DictConnectionException("Not implemented");
     	}
@@ -82,7 +76,6 @@ public class DictionaryConnection {
     public synchronized Collection<Definition> getDefinitions(String word, Database database) throws DictConnectionException {
         Collection<Definition> set = new ArrayList<>();
 
-        // TODO Add your code here
 
         return set;
     }
@@ -113,7 +106,32 @@ public class DictionaryConnection {
     public synchronized Map<String, Database> getDatabaseList() throws DictConnectionException {
         Map<String, Database> databaseMap = new HashMap<>();
 
-        // TODO Add your code here
+        try {
+            out.println("SHOW DATABASES");
+            
+            // read 2 metadata lines
+            in.readLine();
+            in.readLine();
+            String line;
+            
+			while ((line = in.readLine()) != null) {
+				String[] parts = line.split("\"");
+				
+				if(parts.length == 1) {
+					break;
+				}
+                String name = parts[0];
+                String descriiption = parts[1];
+                
+                Database db = new Database(name, descriiption);
+                
+                databaseMap.put(name,  db);
+
+            }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new DictConnectionException(e);
+		}
 
         return databaseMap;
     }

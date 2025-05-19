@@ -62,6 +62,7 @@ public class DictionaryMain extends JFrame {
         optionsPanel.add(databaseLabel, c);
         c.gridwidth = GridBagConstraints.REMAINDER;
         optionsPanel.add(databaseSelection, c);
+        
 
         databaseSelection.addActionListener(new ActionListener() {
             @Override
@@ -69,8 +70,12 @@ public class DictionaryMain extends JFrame {
                 Database d = (Database) databaseModel.getSelectedItem();
                 if (d != null && connection != null) {
                     try {
+                        System.out.println("getting databases");
+
                         databaseDescription.setText(d.getDescription() + "\n" + connection.getDatabaseInfo(d));
                     } catch (DictConnectionException ex) {
+                        System.out.println("getting databases error");
+
                         databaseDescription.setText(d.getDescription() + "\n" + "Error retrieving database information");
                     }
                 }
@@ -177,6 +182,7 @@ public class DictionaryMain extends JFrame {
             } else
                 connection = new DictionaryConnection(serverName);
 
+
             for (Database db : connection.getDatabaseList().values()) {
                 databaseModel.addElement(db);
             }
@@ -187,6 +193,7 @@ public class DictionaryMain extends JFrame {
                     strategyModel.setSelectedItem(strategy);
             }
         } catch (DictConnectionException ex) {
+
             handleException(ex);
         }
 
