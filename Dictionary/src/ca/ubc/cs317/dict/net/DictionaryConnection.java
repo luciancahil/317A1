@@ -114,7 +114,7 @@ public class DictionaryConnection {
             in.readLine();
             String line;
             
-			while ((line = in.readLine()) != null) {
+	        while (in.ready() && (line = in.readLine()) != null) {
 				String[] parts = line.split("\"");
 				
 				if(parts.length == 1) {
@@ -155,10 +155,26 @@ public class DictionaryConnection {
      * @throws DictConnectionException If the connection was interrupted or the messages don't match their expected value.
      */
     public synchronized String getDatabaseInfo(Database d) throws DictConnectionException {
-	StringBuilder sb = new StringBuilder();
+    	StringBuilder sb = new StringBuilder();
 
         // TODO Add your code here
+	    try {
+	        out.println("SHOW INFO " + d.getName());
+	        
+	        in.readLine();
+	        String line;
+	        
+	        while (in.ready() && (line = in.readLine()) != null) {
+		
+	        	sb.append(line + "\n");
 
+	        }
+			
+			System.out.print("OUT!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new DictConnectionException(e);
+		}
         return sb.toString();
     }
 }
