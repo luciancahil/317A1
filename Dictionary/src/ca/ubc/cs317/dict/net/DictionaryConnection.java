@@ -112,11 +112,12 @@ public class DictionaryConnection {
             // read 2 metadata lines
             in.readLine();
             in.readLine();
-            String line;
             
-	        while (in.ready() && (line = in.readLine()) != null) {
+	        while (true) {
+	            String line = in.readLine();
 				String[] parts = line.split("\"");
 				
+				// We've parsed out all the datasets
 				if(parts.length == 1) {
 					break;
 				}
@@ -156,17 +157,27 @@ public class DictionaryConnection {
      */
     public synchronized String getDatabaseInfo(Database d) throws DictConnectionException {
     	StringBuilder sb = new StringBuilder();
-
-        // TODO Add your code here
+    	
+    	if(d.getName() == "*") {
+    		return sb.toString();
+    	}
+        // Why is this sometimes really short, but sometimes really long?
 	    try {
 	        out.println("SHOW INFO " + d.getName());
+	        
+	        System.out.println("SHOW INFO " + d.getName());
 	        
 	        in.readLine();
 	        String line;
 	        
-	        while (in.ready() && (line = in.readLine()) != null) {
-		
+	        while (true) {
+	        	
+	        	line = in.readLine();
+	        	if(line.equals("250 ok")) {
+	        		break;
+	        	}
 	        	sb.append(line + "\n");
+	        	
 
 	        }
 			
