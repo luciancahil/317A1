@@ -206,7 +206,7 @@ public class DictionaryConnection {
     	StringBuilder sb = new StringBuilder();
     	
     	// TODO fix all and any
-    	if(d.getName() == "*") {
+    	if(d.getName() == "*" || d.getName() == "!") {
     		return sb.toString();
     	}
         // Why is this sometimes really short, but sometimes really long?
