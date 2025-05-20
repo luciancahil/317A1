@@ -100,7 +100,6 @@ public class DictionaryConnection {
 	        }
 	        
 	        // Read until the first definition
-	        System.out.println("Line 1: " + line);
 	        while(!line.startsWith("151")) {
 	        	line = in.readLine();
 	        	
@@ -127,7 +126,7 @@ public class DictionaryConnection {
 	        		
 	        		
 	        		// create a new curDef, and set the definition
-        	        curDef = new Definition(word, database.getName());
+        	        curDef = new Definition(word, line.split(" ")[2]);
 
         	        curDef.setDefinition(in.readLine());
 	        		
