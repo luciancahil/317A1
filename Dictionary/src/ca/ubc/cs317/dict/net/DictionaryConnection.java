@@ -38,6 +38,12 @@ public class DictionaryConnection {
 		    in = new BufferedReader(
 		            new InputStreamReader(clientSocket.getInputStream()));
 		    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+		    String intial = in.readLine();
+		    
+		    System.out.println(intial);
+		    if(intial == null || intial == "") {
+	            throw new DictConnectionException("No inital message");
+		    }
     	}catch(Exception e) {
             throw new DictConnectionException("Not implemented");
     	}
