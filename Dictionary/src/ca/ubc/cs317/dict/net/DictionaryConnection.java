@@ -95,6 +95,7 @@ public class DictionaryConnection {
 	        
 	        String line = in.readLine();
 
+	        // nothing here
 	        if (line.startsWith("552")) {
 	        	return set;
 	        }
@@ -206,11 +207,13 @@ public class DictionaryConnection {
             out.println("SHOW DATABASES");
             
             // read 2 metadata lines
-            in.readLine();
+            String line = in.readLine();
+            
+            if(!line.startsWith("110"));
             in.readLine();
             
 	        while (true) {
-	            String line = in.readLine();
+	            line = in.readLine();
 				String[] parts = line.split("\"");
 				
 				// We've parsed out all the datasets
@@ -244,11 +247,16 @@ public class DictionaryConnection {
             out.println("SHOW STRATEGIES");
             
             // read 2 metadata lines
-            in.readLine();
+            String line = in.readLine();
+            
+            // we don't have any strategies
+            if(line.contains("555")) {
+            	return set;
+            }
             in.readLine();
             
 	        while (true) {
-	            String line = in.readLine();
+	            line = in.readLine();
 				String[] parts = line.split("\"");
 				
 				// We've parsed out all the strategies
