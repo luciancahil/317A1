@@ -61,6 +61,13 @@ public class DictionaryConnection {
     public synchronized void close() {
 
         out.println("QUIT");
+        try {
+			clientSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 
     /** Requests and retrieves all definitions for a specific word.
@@ -87,7 +94,6 @@ public class DictionaryConnection {
 	        
 	        
 	        String line = in.readLine();
-	        System.out.println("DEFINE " + database.getName() + " " + word);
 
 	        if (line.startsWith("552")) {
 	        	return set;
@@ -99,25 +105,37 @@ public class DictionaryConnection {
 	        	line = in.readLine();
 	        	
 	        }
+	        
+	        
 	        Definition curDef = null;
 	        while (true) {
-	        	System.out.println(line);
 
 	        	if(line.startsWith("250")) {
+	        		
+	        		// end of message
         			set.add(curDef);
 
 	        		break;
 	        	} else if(line.startsWith("151")) {
 	        		
+	        		// new definition
+	        		
+	        		// add curDef if it's not null
 	        		if (curDef != null) {
 	        			set.add(curDef);
 	        		}
 	        		
+	        		
+	        		// create a new curDef, and set the definition
         	        curDef = new Definition(word, database.getName());
 
         	        curDef.setDefinition(in.readLine());
 	        		
+	        	} else if(line.equals(".")) {
+	        		// Do nothing
 	        	} else {
+	        		
+	        		// just a regular line
 	        		curDef.appendDefinition(line);
 	        	}
 	        		        	
