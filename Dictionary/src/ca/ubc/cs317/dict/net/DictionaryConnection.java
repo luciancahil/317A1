@@ -164,19 +164,19 @@ public class DictionaryConnection {
     public synchronized Set<String> getMatchList(String word, MatchingStrategy strategy, Database database) throws DictConnectionException {
         Set<String> set = new LinkedHashSet<>();
 
-       
+       //TODO Why does every other instance fail?
         
         try {
             out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
             
             
-            System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
            
             // Read Metadata
-            in.readLine();
+            String line = in.readLine();
             
 	        while (true) {
-	            String line = in.readLine();
+	        	System.out.println("Line: " + line);
+	        	line = in.readLine();
 				String[] parts = line.split("\"");
 				
 				// We've parsed out all the results
@@ -192,6 +192,10 @@ public class DictionaryConnection {
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
+        
+        System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
+
+        System.out.println(set);
         return set;
     }
 
@@ -207,10 +211,13 @@ public class DictionaryConnection {
             out.println("SHOW DATABASES");
             
             // read 2 metadata lines
-            String line = in.readLine();
-            
-            if(!line.startsWith("110"));
             in.readLine();
+
+            // does we contain anything?
+            String line = in.readLine();
+            if(!line.contains("110")) {
+            	return databaseMap;
+            }
             
 	        while (true) {
 	            line = in.readLine();
@@ -231,7 +238,8 @@ public class DictionaryConnection {
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
-
+        
+        System.out.println(databaseMap);
         return databaseMap;
     }
 
@@ -247,13 +255,16 @@ public class DictionaryConnection {
             out.println("SHOW STRATEGIES");
             
             // read 2 metadata lines
+            in.readLine();
+
+            // do we contain what we need?
             String line = in.readLine();
             
+            System.out.println(line);
             // we don't have any strategies
-            if(line.contains("555")) {
+            if(!line.contains("111")) {
             	return set;
             }
-            in.readLine();
             
 	        while (true) {
 	            line = in.readLine();
@@ -274,6 +285,7 @@ public class DictionaryConnection {
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
+        
 
         return set;
     }
