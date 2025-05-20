@@ -77,6 +77,59 @@ public class DictionaryConnection {
         Collection<Definition> set = new ArrayList<>();
 
         // TODO This
+        
+    
+        
+        // DEFINE database word         -- look up word in database
+        
+	    try {
+	        out.println("DEFINE " + database.getName() + " " + word);
+	        
+	        
+	        String line = in.readLine();
+	        System.out.println("DEFINE " + database.getName() + " " + word);
+
+	        if (line.startsWith("552")) {
+	        	return set;
+	        }
+	        
+	        // Read until the first definition
+	        System.out.println("Line 1: " + line);
+	        while(!line.startsWith("151")) {
+	        	line = in.readLine();
+	        	
+	        }
+	        Definition curDef = null;
+	        while (true) {
+	        	System.out.println(line);
+
+	        	if(line.startsWith("250")) {
+        			set.add(curDef);
+
+	        		break;
+	        	} else if(line.startsWith("151")) {
+	        		
+	        		if (curDef != null) {
+	        			set.add(curDef);
+	        		}
+	        		
+        	        curDef = new Definition(word, database.getName());
+
+        	        curDef.setDefinition(in.readLine());
+	        		
+	        	} else {
+	        		curDef.appendDefinition(line);
+	        	}
+	        		        	
+	        	line = in.readLine();
+
+	        }
+			
+		} catch (Exception e) {
+			throw new DictConnectionException(e);
+		}
+
+
         return set;
     }
 
@@ -98,7 +151,10 @@ public class DictionaryConnection {
         try {
             out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
             
-            // read 1 metadata line
+            
+            System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
+           
+            // Read Metadata
             in.readLine();
             
 	        while (true) {
@@ -205,7 +261,6 @@ public class DictionaryConnection {
     public synchronized String getDatabaseInfo(Database d) throws DictConnectionException {
     	StringBuilder sb = new StringBuilder();
     	
-    	// TODO fix all and any
     	if(d.getName() == "*" || d.getName() == "!") {
     		return sb.toString();
     	}
