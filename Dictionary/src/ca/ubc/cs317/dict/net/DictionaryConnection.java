@@ -223,17 +223,8 @@ public class DictionaryConnection {
             }
             in.readLine();
             
-	        while (true) {
-	            line = in.readLine();
+            while ((line = in.readLine()) != null && !line.equals(".")) {
 	            
-				// We've parsed out all the datasets
-				if(line.equals(".")) {
-					
-					// Read one last lien
-					in.readLine();
-					
-					break;
-				}
 				String[] parts = line.split("\"");
 				
 
@@ -245,6 +236,8 @@ public class DictionaryConnection {
                 databaseMap.put(name,  db);
 
             }
+			in.readLine();
+
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
