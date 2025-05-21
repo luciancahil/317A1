@@ -271,12 +271,17 @@ public class DictionaryConnection {
             
 	        while (true) {
 	            line = in.readLine();
-				String[] parts = line.split("\"");
 				
 				// We've parsed out all the strategies
-				if(parts.length == 1 || line == null) {
+				if(line.equals(".")) {
+					
+					// read the 250
+					in.readLine();
 					break;
 				}
+				
+				String[] parts = line.split("\"");
+
                 String name = parts[0].strip();
                 String descriiption = parts[1];
                 
