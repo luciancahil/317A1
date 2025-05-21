@@ -179,6 +179,11 @@ public class DictionaryConnection {
             // Read Metadata
             String line = in.readLine();
             
+            
+            if(!line.startsWith("152")) {
+            	return set;
+            }
+            
             while ((line = in.readLine()) != null && !line.equals(".")) {
 				String[] parts = line.split("\"");
 				
@@ -187,12 +192,9 @@ public class DictionaryConnection {
                 
                 set.add(match);
             }
-            System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
-        	System.out.println("First: " + line);
 
             // Read the 250
         	line = in.readLine();
-        	System.out.println("Second: " + line);
 
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
