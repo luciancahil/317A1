@@ -180,7 +180,6 @@ public class DictionaryConnection {
             String line = in.readLine();
             
 	        while (true) {
-	        	System.out.println("Line: " + line);
 	        	line = in.readLine();
 				String[] parts = line.split("\"");
 				
@@ -198,9 +197,7 @@ public class DictionaryConnection {
 			throw new DictConnectionException(e);
 		}
         
-        System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
 
-        System.out.println(set);
         return set;
     }
 
@@ -217,18 +214,26 @@ public class DictionaryConnection {
             
             // read 2 metadata lines
             String line = in.readLine();
-            
-            if(!line.startsWith("110"));
+                        
+            if(!line.startsWith("110")) {
+            	return databaseMap;
+            }
             in.readLine();
             
 	        while (true) {
 	            line = in.readLine();
-				String[] parts = line.split("\"");
-				
+	            
 				// We've parsed out all the datasets
-				if(parts.length == 1) {
+				if(line.equals(".")) {
+					
+					// Read one last lien
+					in.readLine();
+					
 					break;
 				}
+				String[] parts = line.split("\"");
+				
+
                 String name = parts[0].strip();
                 String descriiption = parts[1];
                 
@@ -259,7 +264,7 @@ public class DictionaryConnection {
             String line = in.readLine();
             
             // we don't have any strategies
-            if(line.contains("555")) {
+            if(!line.contains("111")) {
             	return set;
             }
             in.readLine();
