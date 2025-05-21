@@ -93,13 +93,10 @@ public class DictionaryConnection {
 	    try {
 	        out.println("DEFINE " + database.getName() + " " + word);
 	        
-	        System.out.println("DEFINE " + database.getName() + " " + word);
 
 	        String line = in.readLine();
 	        // nothing here
-	        System.out.println("initial: " + line);
 	        if (!line.startsWith("150")) {
-	        	System.out.println("Death!");
 	        	return set;
 	        }
 	        
@@ -109,7 +106,6 @@ public class DictionaryConnection {
             while ((line = in.readLine()) != null && !line.startsWith("250")) {
 
 	        	if(line.startsWith("151")) {	// new definition
-	        		System.out.println("NUll: " + curDef + "line");
 	        		 
 	        		
 	        		
@@ -208,7 +204,6 @@ public class DictionaryConnection {
             if(!line.startsWith("110")) {
             	return databaseMap;
             }
-            in.readLine();
             
             while ((line = in.readLine()) != null && !line.equals(".")) {
 	            
@@ -252,8 +247,6 @@ public class DictionaryConnection {
             }
             
             while ((line = in.readLine()) != null && !line.equals(".")) {
-
-				System.out.println(line);
 				
 				String[] parts = line.split("\"");
 
@@ -262,7 +255,6 @@ public class DictionaryConnection {
                 
                 MatchingStrategy ms = new MatchingStrategy(name, descriiption);
                 
-                System.out.println(ms);
                 set.add(ms);
                
             }
