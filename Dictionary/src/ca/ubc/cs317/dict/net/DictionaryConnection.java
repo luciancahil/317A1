@@ -97,14 +97,20 @@ public class DictionaryConnection {
 	    try {
 	        out.println("DEFINE " + database.getName() + " " + word);
 	        
-	        
-	        String line = in.readLine();
+	        System.out.println("DEFINE " + database.getName() + " " + word);
 
+	        String line = in.readLine();
+	        System.out.println(line);
 	        // nothing here
-	        if (line.startsWith("552")) {
+	        if (!line.startsWith("152")) {
+	        	System.out.println("Death!");
 	        	return set;
 	        }
-	        
+            // read 2 metadata lines
+            line = in.readLine();
+	        System.out.println("Start: " + line);
+
+            
 	        // Read until the first definition
 	        while(!line.startsWith("151")) {
 	        	line = in.readLine();
@@ -265,14 +271,11 @@ public class DictionaryConnection {
             }
             in.readLine();
             
-	        while (true) {
-	            line = in.readLine();
+            while ((line = in.readLine()) != null && !line.equals(".")) {
 				
 				// We've parsed out all the strategies
 				if(line.equals(".")) {
-					
 					// read the 250
-					in.readLine();
 					break;
 				}
 				
@@ -286,6 +289,9 @@ public class DictionaryConnection {
                 set.add(ms);
                
             }
+            
+            line = in.readLine();
+
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
@@ -308,21 +314,17 @@ public class DictionaryConnection {
 	    try {
 	        out.println("SHOW INFO " + d.getName());
 	        
-	        
 	        in.readLine();
 	        String line;
 	        
-	        while (true) {
-	        	
-	        	line = in.readLine();
-	        	if(line.equals("250 ok")) {
-	        		break;
-	        	}
+            while ((line = in.readLine()) != null && !line.equals(".")) {
+	
 	        	sb.append(line + "\n");
 	        	
 
 	        }
 			
+            in.read();
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
