@@ -87,30 +87,24 @@ public class DictionaryConnection {
      */
     public synchronized Collection<Definition> getDefinitions(String word, Database database) throws DictConnectionException {
         Collection<Definition> set = new ArrayList<>();
-
-        // TODO This
         
     
-        
-        // DEFINE database word         -- look up word in database
-        
+               
 	    try {
 	        out.println("DEFINE " + database.getName() + " " + word);
 	        
 	        System.out.println("DEFINE " + database.getName() + " " + word);
 
 	        String line = in.readLine();
-	        System.out.println(line);
 	        // nothing here
-	        if (!line.startsWith("152")) {
+	        System.out.println("initial: " + line);
+	        if (!line.startsWith("150")) {
 	        	System.out.println("Death!");
 	        	return set;
 	        }
-            // read 2 metadata lines
             line = in.readLine();
-	        System.out.println("Start: " + line);
 
-            
+            System.out.println("Entered: " + line);
 	        // Read until the first definition
 	        while(!line.startsWith("151")) {
 	        	line = in.readLine();
@@ -324,7 +318,7 @@ public class DictionaryConnection {
 
 	        }
 			
-            in.read();
+	        in.readLine();
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
