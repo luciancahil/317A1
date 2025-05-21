@@ -179,20 +179,21 @@ public class DictionaryConnection {
             // Read Metadata
             String line = in.readLine();
             
-	        while (true) {
-	        	line = in.readLine();
+            while ((line = in.readLine()) != null && !line.equals(".")) {
 				String[] parts = line.split("\"");
-				
-				// We've parsed out all the results
-				if(parts.length == 1) {
-					break;
-				}
 				
 				// the word that matches
                 String match = parts[1];
                 
                 set.add(match);
             }
+            System.out.println("MATCH " + database.getName() + " "  + strategy.getName() + " " + word);
+        	System.out.println("First: " + line);
+
+            // Read the 250
+        	line = in.readLine();
+        	System.out.println("Second: " + line);
+
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
