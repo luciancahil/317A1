@@ -40,7 +40,6 @@ public class DictionaryConnection {
 		    BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 		    String intial = in.readLine();
 		    
-		    System.out.println(intial);
 		    if(intial == null || intial == "") {
 	            throw new DictConnectionException("No inital message");
 		    }
@@ -217,13 +216,10 @@ public class DictionaryConnection {
             out.println("SHOW DATABASES");
             
             // read 2 metadata lines
-            in.readLine();
-
-            // does we contain anything?
             String line = in.readLine();
-            if(!line.contains("110")) {
-            	return databaseMap;
-            }
+            
+            if(!line.startsWith("110"));
+            in.readLine();
             
 	        while (true) {
 	            line = in.readLine();
@@ -244,8 +240,7 @@ public class DictionaryConnection {
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
-        
-        System.out.println(databaseMap);
+
         return databaseMap;
     }
 
@@ -261,16 +256,13 @@ public class DictionaryConnection {
             out.println("SHOW STRATEGIES");
             
             // read 2 metadata lines
-            in.readLine();
-
-            // do we contain what we need?
             String line = in.readLine();
             
-            System.out.println(line);
             // we don't have any strategies
-            if(!line.contains("111")) {
+            if(line.contains("555")) {
             	return set;
             }
+            in.readLine();
             
 	        while (true) {
 	            line = in.readLine();
@@ -291,7 +283,6 @@ public class DictionaryConnection {
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
 		}
-        
 
         return set;
     }
