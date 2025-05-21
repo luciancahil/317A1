@@ -102,28 +102,16 @@ public class DictionaryConnection {
 	        	System.out.println("Death!");
 	        	return set;
 	        }
-            line = in.readLine();
-
-            System.out.println("Entered: " + line);
-	        // Read until the first definition
-	        while(!line.startsWith("151")) {
-	        	line = in.readLine();
-	        	
-	        }
-	        
 	        
 	        Definition curDef = null;
-	        while (true) {
+	        
+	        
+            while ((line = in.readLine()) != null && !line.startsWith("250")) {
 
-	        	if(line.startsWith("250")) {
+	        	if(line.startsWith("151")) {	// new definition
+	        		System.out.println("NUll: " + curDef + "line");
+	        		 
 	        		
-	        		// end of message
-        			set.add(curDef);
-
-	        		break;
-	        	} else if(line.startsWith("151")) {
-	        		
-	        		// new definition
 	        		
 	        		// add curDef if it's not null
 	        		if (curDef != null) {
@@ -136,17 +124,16 @@ public class DictionaryConnection {
 
         	        curDef.setDefinition(in.readLine());
 	        		
-	        	} else if(line.equals(".")) {
-	        		// Do nothing
-	        	} else {
+	        	} else if(!line.equals(".")) {
 	        		
 	        		// just a regular line
 	        		curDef.appendDefinition(line);
 	        	}
 	        		        	
-	        	line = in.readLine();
 
 	        }
+	        
+			set.add(curDef);
 			
 		} catch (Exception e) {
 			throw new DictConnectionException(e);
