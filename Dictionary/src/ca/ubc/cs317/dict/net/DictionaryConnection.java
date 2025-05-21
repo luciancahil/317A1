@@ -136,7 +136,7 @@ public class DictionaryConnection {
 			set.add(curDef);
 			
 		} catch (Exception e) {
-			throw new DictConnectionException(e);
+			return new ArrayList<>();
 		}
 
 
@@ -184,7 +184,7 @@ public class DictionaryConnection {
         	line = in.readLine();
 
 		} catch (Exception e) {
-			throw new DictConnectionException(e);
+			return new LinkedHashSet<>();
 		}
         
 
@@ -226,7 +226,7 @@ public class DictionaryConnection {
 			in.readLine();
 
 		} catch (Exception e) {
-			throw new DictConnectionException(e);
+			return new HashMap<>();
 		}
 
         return databaseMap;
@@ -250,15 +250,10 @@ public class DictionaryConnection {
             if(!line.contains("111")) {
             	return set;
             }
-            in.readLine();
             
             while ((line = in.readLine()) != null && !line.equals(".")) {
-				
-				// We've parsed out all the strategies
-				if(line.equals(".")) {
-					// read the 250
-					break;
-				}
+
+				System.out.println(line);
 				
 				String[] parts = line.split("\"");
 
@@ -267,6 +262,7 @@ public class DictionaryConnection {
                 
                 MatchingStrategy ms = new MatchingStrategy(name, descriiption);
                 
+                System.out.println(ms);
                 set.add(ms);
                
             }
@@ -274,7 +270,7 @@ public class DictionaryConnection {
             line = in.readLine();
 
 		} catch (Exception e) {
-			throw new DictConnectionException(e);
+			return new LinkedHashSet<>();
 		}
 
         return set;
